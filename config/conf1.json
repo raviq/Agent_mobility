@@ -1,0 +1,29 @@
+[
+{
+                "Listener" : 8033
+},
+{
+                "Name":	"John",
+                "IP":	"127.0.0.1",
+                "Port":	8060,
+                "Delay": 1,
+                "Command": "ACK",
+                "Data": "None"
+},
+{
+                "Name":	"Kurt",
+                "IP":	"127.0.0.1",
+                "Port":	8061,
+                "Delay": 1,
+                "Command": "ACK",
+                "Data": "None"
+},
+{
+                "Name":	"Karl",
+                "IP":	"127.0.0.1",
+                "Port":	8077,
+                "Delay": 1,
+                "Command": "ACK",
+                "Data": "None"
+}
+]
