@@ -23,8 +23,8 @@ Each agent connects to the manager and sends JSON payloads containing: current p
 		  |
 		  v
 		agent(s) <------json-----> manager <-----json?-----> visualiser
-						 |
-					 commands, coords
+                         |
+                  commands, coords
 
 
 ## Usage
