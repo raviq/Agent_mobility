@@ -14,17 +14,17 @@ A manager starts accepting incoming connections from the agents.
 Each agent connects to the manager and sends JSON payloads containing: current position, nearby agents, or a command to be executed by the manager.
 
 
-		agent
+		Agent
 		  ^
 		  |
 		  |
-		 json - coords, bids, behaviors, etc.
+		 json - positions, bids, behaviours, etc.
 		  | 
 		  |
 		  v
-		agent(s) <------json-----> manager <-----json?-----> visualiser
-                           |
-                    commands, coords
+		Agent(s) <------json-----> Manager <-----json?-----> Visualiser
+                             |
+                      commands, coords
 
 
 ## Usage
