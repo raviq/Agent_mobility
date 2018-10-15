@@ -5,8 +5,6 @@
 ## Description
 
 This is a basic toolkit for mobility generation using distributed agents.
-Useful for vehicle simulations once equiped with a visualiser on OSM.
-
 
 ## How does it work?
 
@@ -45,16 +43,11 @@ Then, run the client(s):
 
 ## In other projects
 
-- On [StarBED](http://starbed.nict.go.jp/en/index.html)
+- On [StarBED](http://starbed.nict.go.jp/en/index.html) for for traffic simulation
 
 <p align="center">
 	<img src="https://github.com/raviq/Simultra/blob/master/resources/arch.png" width="500">
 </p>
-
-
-
-
-
 
 
 ## Licence & Copyright
