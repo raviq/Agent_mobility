@@ -27,6 +27,7 @@ Each agent connects to the manager and sends JSON payloads containing: current p
                       commands, coords
 
 
+
 ## Usage
 
 Start by running the manager:
@@ -35,12 +36,22 @@ Start by running the manager:
 ./manager conf.json
 ```
 
-
-Then, trun the client(s):
+Then, run the client(s):
 
 ```
 ./agent name
 ```
+
+
+## In other projects
+
+- On [StarBED](http://starbed.nict.go.jp/en/index.html)
+
+<p align="center">
+	<img src="https://github.com/raviq/Simultra/blob/master/resources/arch.png" width="500">
+</p>
+
+
 
 
 
