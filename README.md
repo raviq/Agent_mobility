@@ -40,10 +40,9 @@ Then, run the client(s):
 ./agent name
 ```
 
-
 ## In other projects
 
-- On [StarBED](http://starbed.nict.go.jp/en/index.html) for for traffic simulation
+- Traffic simulation on [StarBED](http://starbed.nict.go.jp/en/index.html) 
 
 <p align="center">
 	<img src="https://github.com/raviq/Agent_mobility/blob/master/arch.png" width="500">
