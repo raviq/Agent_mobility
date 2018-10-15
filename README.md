@@ -9,13 +9,13 @@ This is a basic toolkit for mobility generation using distributed agents.
 A manager starts accepting incoming connections from the agents.
 Each agent connects to the manager and sends JSON payloads containing: current position, nearby agents, or a command to be executed by the manager.
 
-- Start by running the manager:
+Start by running the manager:
 
 ```
 ./manager conf.json
 ```
 
-- Then, run the client(s):
+Then, run the client(s):
 
 ```
 ./agent name
@@ -26,7 +26,7 @@ Each agent connects to the manager and sends JSON payloads containing: current p
 - Traffic simulation on [StarBED](http://starbed.nict.go.jp/en/index.html) 
 
 <p align="center">
-	<img src="https://github.com/raviq/Agent_mobility/blob/master/arch.png" width="500">
+	<img src="https://github.com/raviq/Agent_mobility/blob/master/arch.png" width="400">
 </p>
 
 
