@@ -6,35 +6,19 @@
 
 This is a basic toolkit for mobility generation using distributed agents.
 
-## How does it work?
+
+## Usage
 
 A manager starts accepting incoming connections from the agents.
 Each agent connects to the manager and sends JSON payloads containing: current position, nearby agents, or a command to be executed by the manager.
 
-
-		Agent
-		  ^
-		  |
-		  |
-		 json - positions, bids, behaviours, etc.
-		  | 
-		  |
-		  v
-		Agent(s) <------json-----> Manager <-----json?-----> Visualiser
-                             |
-                      commands, coords
-
-
-
-## Usage
-
-Start by running the manager:
+- Start by running the manager:
 
 ```
 ./manager conf.json
 ```
 
-Then, run the client(s):
+- Then, run the client(s):
 
 ```
 ./agent name
