@@ -1,11 +1,8 @@
-
-
 # Distributed Agents for Mobility Generation
 
 ## Description
 
 This is a basic toolkit for mobility generation using distributed agents.
-
 
 ## Usage
 
