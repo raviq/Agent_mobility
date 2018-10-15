@@ -46,7 +46,7 @@ Then, run the client(s):
 - On [StarBED](http://starbed.nict.go.jp/en/index.html) for for traffic simulation
 
 <p align="center">
-	<img src="https://github.com/raviq/Simultra/blob/master/resources/arch.png" width="500">
+	<img src="https://github.com/raviq/Agent_mobility/blob/master/arch.png" width="500">
 </p>
 
 
