@@ -4,21 +4,20 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <stdint.h>
-
 #include <stdlib.h>
 #include <time.h>
 
 #include "geolocation.h"
 
-
 int main(int argc , char *argv[])
 {
-    
+
+   // test:
+	
     srand((unsigned int)time(NULL));
 
     geo();
 
-    
     return 0;
     
     int port, len, sock = -1;    
@@ -65,8 +64,6 @@ int main(int argc , char *argv[])
     while((len = recv(sock, server_reply, sizeof(server_reply), 0)) > 0)
     {
         printf("Server reply: %.*s\n", len, server_reply);
-        printf("___________________________________________________\n");
-
         printf("Enter message : ");
         if (fgets(message, sizeof(message), stdin) == NULL)
             break;
