@@ -38,7 +38,7 @@ void* sending (void* destination_node)
     sock = socket(AF_INET , SOCK_STREAM , 0);
     if (sock == -1)
     {
-	fprintf(stderr, "Error: cannot create socket\n");
+	    fprintf(stderr, "Error: cannot create socket\n");
     }
     
     debug("Socket created.");
@@ -50,8 +50,7 @@ void* sending (void* destination_node)
     // connect to remote node
     if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
     {
-	debug("%s is not available !", ((node_t*) destination_node)->name);
-        //perror("connect failed");
+	    debug("%s is not available !", ((node_t*) destination_node)->name);
     }
 
     debug("I am Connected.");
@@ -63,20 +62,20 @@ void* sending (void* destination_node)
         debug("[%s] Server reply: %.*s\n", me, len, server_reply);
         debug("_________________________________________________________________________________________________________________________\n");
 
-	// build the payload with random lat/lng
-	payload_t payload = { "precType", t, random_float(100), random_float(100), ((node_t*) destination_node)->name};
-	char* payload_string = NULL;
+        // build the payload with random lat/lng
+        payload_t payload = { "precType", t, random_float(100), random_float(100), ((node_t*) destination_node)->name};
+        char* payload_string = NULL;
         set_payload(payload, &payload_string);
 
         debug("[%s] Sending location: %s\n", me, payload_string);
-	sleep( ((node_t*) destination_node)->delay);
+    	sleep( ((node_t*) destination_node)->delay);
 
         // send some data
         if( send(sock , payload_string , strlen(payload_string) , 0) < 0)
         {
             debug("[%s] Send failed", me);
         }
-	t++;
+	    t++;
     }
 
     close(sock);
@@ -84,7 +83,6 @@ void* sending (void* destination_node)
     return 0;
 }
 
-//===================================================================================================
 // handling an incoming connection
 
 void *new_connection_handler(void *socket_desc)
@@ -142,134 +140,132 @@ void *new_connection_handler(void *socket_desc)
 
 	    case MOVING:
 	    {
-		sprintf(Response, "MOVING %s.", payload.name);
-		
-		debug("Receiving MOVING from the agent");
+            sprintf(Response, "MOVING %s.", payload.name);
 
-		debug("with name %s @(%lf, %lf) @t=%d command=%d data=<%s>.",
-		    payload.name,
-		    payload.lat,
-		    payload.lng,
-		    payload.round,
-		    payload.command,
-		    payload.data
-		);
+            debug("Receiving MOVING from the agent");
 
-		
-		break;
+            debug("with name %s @(%lf, %lf) @t=%d command=%d data=<%s>.",
+                payload.name,
+                payload.lat,
+                payload.lng,
+                payload.round,
+                payload.command,
+                payload.data
+            );
+
+            break;
 	    }
 
 	    case ACK:
 	    {
-		sprintf(Response, "ACK %s.", payload.name);
-		break;
+            sprintf(Response, "ACK %s.", payload.name);
+            break;
 	    }
 	    case ADD:
 	    {			
-		if (strcmp(payload.data, "\"\"") == 0) // TODO use remove_all_chars()
-		{
-		    debug("No hosts specified. Nothing to add !");
-		}
-		else
-		{
-		    // TODO Control on payload.data...., make sure its either {IP:PORT,}IP:PORT or pure *JSON*
-    
-		    int i, j, hosts_number;
-		    node_t* hosts = NULL;
-		    
-		    get_hosts( payload.data, // list of hosts.
-			      & hosts,
-			      & hosts_number);
-    
-		    // check my list 'my_hosts'
-		    
-		    if (my_hosts == NULL) // my list is empty
-		    {
-			debug("Empty List");
-			
-			if (hosts_number>0)
-			{
-				debug("Populating List");
-				
-				my_hosts = malloc( sizeof(node_t) * MAX_NODES ); // TODO realloc() later instead, when i am adding to an already non empty list.
-				
-				for ( i = 0 ; i < hosts_number ; i++ )
-				{
-				    my_hosts[i].ip = malloc( sizeof(char) * (strlen(hosts[i].ip)+1));
-				    sscanf(hosts[i].ip, "%s", my_hosts[i].ip);
-				    my_hosts[i].port = hosts[i].port;
-				    // TODO add names?
-				    debug("ADDING %s:%d", hosts[i].ip, hosts[i].port);
-				}
-				
-				my_hosts_number = hosts_number;
-			}
-			
-			// response
-			sprintf(Response, "DONE %s @(%lf, %lf) @t=%d command=%d data=<%s>.",
-				payload.name,
-				payload.lat,
-				payload.lng,
-				payload.round,
-				payload.command,
-				payload.data
-				);
-			debug("I finished adding the entries.");
-			debug("%s", Response);
-		    }
-		    else // my list is not empty
-		    {
-			debug("LISTING: There is someone in my list... %d node(s) :", my_hosts_number);
-			for ( i = 0 ; i < my_hosts_number ; i++ )
-			    debug("LISTING:   host #%d <%s:%d>", i, my_hosts[i].ip, my_hosts[i].port);
-			    
-			debug("Let me check if your entries are in my list or not.");
-			
-			for ( i = 0 ; i < hosts_number ; i++ )
-			{
-		    	    alert("_______________________________________________");
-		    	    alert("Checking your entry %s:%d", hosts[i].ip, hosts[i].port);
-			    
-			    for ( j = 0 ; j < my_hosts_number ; j++ )
-			    {
-				if (!strcmp(hosts[i].ip, my_hosts[j].ip) && hosts[i].port == my_hosts[j].port )
-				{
-				    alert("\t\t    %s:%d == %s:%d    (found !)", hosts[i].ip, hosts[i].port, my_hosts[i].ip, my_hosts[j].port);
-				}
-				else
-				{
-				    alert("\t\t    %s:%d <> %s:%d", hosts[i].ip, hosts[i].port, my_hosts[i].ip, my_hosts[j].port);
-				    //alert("   ===> %s:%d",  my_hosts[my_hosts_number-1].ip,  my_hosts[my_hosts_number-1].port );
-				}
-				
-			    }
-			    
-			}
-			    
-			// check if the payloads sent by agent are in my_hosts or not
-			// if they are not, add them,
-			// ....
-			// if not send
-	    		sprintf(Response, "%d", DONE);
-			    debug("Sending DONE to %s.", payload.name);
-		    }
-			
-		}
-		
-		debug("Breaking from 'ADD' case");
-		break;
+            if (strcmp(payload.data, "\"\"") == 0) // TODO use remove_all_chars()
+            {
+                debug("No hosts specified. Nothing to add !");
+            }
+            else
+            {
+                // TODO Control on payload.data...., make sure its either {IP:PORT,}IP:PORT or pure *JSON*
+
+                int i, j, hosts_number;
+                node_t* hosts = NULL;
+
+                get_hosts( payload.data, // list of hosts.
+                      & hosts,
+                      & hosts_number);
+
+                // check my list 'my_hosts'
+
+                if (my_hosts == NULL) // my list is empty
+                {
+                debug("Empty List");
+
+                if (hosts_number>0)
+                {
+                    debug("Populating List");
+
+                    my_hosts = malloc( sizeof(node_t) * MAX_NODES ); // TODO realloc() later instead, when i am adding to an already non empty list.
+
+                    for ( i = 0 ; i < hosts_number ; i++ )
+                    {
+                        my_hosts[i].ip = malloc( sizeof(char) * (strlen(hosts[i].ip)+1));
+                        sscanf(hosts[i].ip, "%s", my_hosts[i].ip);
+                        my_hosts[i].port = hosts[i].port;
+                        // TODO add names?
+                        debug("ADDING %s:%d", hosts[i].ip, hosts[i].port);
+                    }
+
+                    my_hosts_number = hosts_number;
+                }
+
+                // response
+                sprintf(Response, "DONE %s @(%lf, %lf) @t=%d command=%d data=<%s>.",
+                    payload.name,
+                    payload.lat,
+                    payload.lng,
+                    payload.round,
+                    payload.command,
+                    payload.data
+                    );
+                debug("I finished adding the entries.");
+                debug("%s", Response);
+                }
+                else // my list is not empty
+                {
+                debug("LISTING: There is someone in my list... %d node(s) :", my_hosts_number);
+                for ( i = 0 ; i < my_hosts_number ; i++ )
+                    debug("LISTING:   host #%d <%s:%d>", i, my_hosts[i].ip, my_hosts[i].port);
+
+                debug("Let me check if your entries are in my list or not.");
+
+                for ( i = 0 ; i < hosts_number ; i++ )
+                {
+                        alert("_______________________________________________");
+                        alert("Checking your entry %s:%d", hosts[i].ip, hosts[i].port);
+
+                    for ( j = 0 ; j < my_hosts_number ; j++ )
+                    {
+                    if (!strcmp(hosts[i].ip, my_hosts[j].ip) && hosts[i].port == my_hosts[j].port )
+                    {
+                        alert("\t\t    %s:%d == %s:%d    (found !)", hosts[i].ip, hosts[i].port, my_hosts[i].ip, my_hosts[j].port);
+                    }
+                    else
+                    {
+                        alert("\t\t    %s:%d <> %s:%d", hosts[i].ip, hosts[i].port, my_hosts[i].ip, my_hosts[j].port);
+                        //alert("   ===> %s:%d",  my_hosts[my_hosts_number-1].ip,  my_hosts[my_hosts_number-1].port );
+                    }
+
+                    }
+
+                }
+
+                // check if the payloads sent by agent are in my_hosts or not
+                // if they are not, add them,
+                // ....
+                // if not send
+                    sprintf(Response, "%d", DONE);
+                    debug("Sending DONE to %s.", payload.name);
+                }
+
+            }
+
+            debug("Breaking from 'ADD' case");
+            break;
 	    }
 	    default:
 	    {
-		debug("Unknown Command");
-		sprintf(Response, " %s Your Command %d is unknown.", payload.name, payload.command);
-		break;
+            debug("Unknown Command");
+            sprintf(Response, " %s Your Command %d is unknown.", payload.name, payload.command);
+            break;
 	    }
 	}
 	    
         // send back
         write(sock , Response , read_size + strlen(Response));
-        
         debug("___________________________________________________________________________________________________");
   
     }
@@ -287,8 +283,6 @@ void *new_connection_handler(void *socket_desc)
     return 0;
 }
 
-//===================================================================================================
-
 void* receiving(void* port_p)
 {  
     int port = *((int*) port_p);
@@ -297,8 +291,7 @@ void* receiving(void* port_p)
     socklen_t c = sizeof(client);
 
     //Create socket
-    socket_desc = socket(AF_INET , SOCK_STREAM , 0);
-    if (socket_desc == -1)
+    if (socket_desc = socket(AF_INET , SOCK_STREAM , 0) == -1)
     {
         debug("Could not create socket !");
     }
@@ -343,7 +336,6 @@ void* receiving(void* port_p)
     return 0;
 }
 
-//==========================================================================================================
 
 int main(int argc , char *argv[])
 {

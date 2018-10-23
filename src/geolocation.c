@@ -1,15 +1,3 @@
-/***
- *
- *  json
- *  
- *  http://www.quora.com/Is-there-a-C-struct-to-JSON-generator-library
- *
- *  json api used in yamux ?
- *
- *  use this for th moment: http://ccodearchive.net/info/json.html
- *
- */
-
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>

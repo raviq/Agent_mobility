@@ -21,25 +21,22 @@
 #include "payload.h"
 #include "debug.h"
 
-
 // Sends payloads to manager
 
 void* send_to (void* destination_node)
 {
-    int t = 0, 	   // round
+    int t = 0, // round
 	T = 100,   // total number of rounds
 	len,
 	sock = -1;
-    double x = 0; // intial position (x)
-    double y = 0; // intial position (y)
+    double x = 0, y = 0; // initial positions (x, y)
     struct sockaddr_in server;
     char server_reply[2000];
   
     srand((unsigned int)time(NULL));
-    
-    // create socket
-    sock = socket(AF_INET , SOCK_STREAM , 0);
-    if (sock == -1)
+
+    // Create socket.
+    if ((sock = socket(AF_INET , SOCK_STREAM , 0)) == -1)
     {
 		fprintf(stderr, "Error: cannot create socket!\n");
     }
@@ -58,7 +55,7 @@ void* send_to (void* destination_node)
 
     debug("Connected");
     
-    // keep communicating with the server
+    // kKeep communicating with the server
     while((len = recv(sock, server_reply, sizeof(server_reply), 0)) > 0)
     {	
 		command_t command;
@@ -91,8 +88,7 @@ void* send_to (void* destination_node)
 					   y, // lng
 					   ((node_t*) destination_node)->name,
 					   MOVING,
-					   //"127.0.0.1:8001,127.0.0.1:8059,127.0.0.1:8003"
-					   "127.0.0.1:8058,127.0.0.1:8019,127.0.0.1:8003,127.0.0.1:8065" // TODO define as JSON and add to the other JSON data
+					   "127.0.0.1:8058,127.0.0.1:8019,127.0.0.1:8003,127.0.0.1:8065" // TODO JSON
 					};
 				
 		char* payload_string = NULL;
@@ -101,7 +97,7 @@ void* send_to (void* destination_node)
 		y += 1.0;
 		debug("Sending: %s", payload_string);
 	
-		sleep( ((node_t*) destination_node)->delay); // TODO pick the right delay
+		sleep( ((node_t*) destination_node)->delay);
 
 		// Alter data with new lat/lon, and command (to NEWLOCATION)	
 		// send some data
@@ -111,7 +107,6 @@ void* send_to (void* destination_node)
 		}
 		
 		t++;
-	
     }
 
     close(sock);
@@ -131,7 +126,8 @@ int main(int argc , char *argv[])
     char* agent_name = malloc(sizeof(char) * 10);
     sprintf(agent_name,"%s%s", "Agent", argv[1]);
     
-    node_t node =  {
+    node_t node =
+    {
 		"127.0.0.1",	
 		8033, 	// port we are connecting to.
 		1, 		// delay

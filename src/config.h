@@ -121,10 +121,8 @@ int set_nodes(node_t** nodes,
 		debug("   IP   = %s", (*nodes)[k].ip);
 		debug("   Delay = %d", (*nodes)[k].delay);
 	    #endif
-	    
-            
+
 	    } // k
-            
             
 	    free(out);
 	    cJSON_Delete(json);
